@@ -66,36 +66,35 @@
       object-fit: cover; /* Đảm bảo ảnh lấp đầy khung vuông mà không bị biến dạng */
   }
   </style>
-  <script>
+  <!-- <script>
     function handleFormSubmit(event) {
       event.preventDefault(); // Ngăn chặn hành vi gửi form mặc định
-
+    
       var formData = new FormData(event.target);
-
-      fetch('https://script.google.com/macros/s/AKfycbyU2zDO-uaY5HitbI7mTe8G6aBlyL6AHOlI9B4VABOkA4yePRPS3__BAEGD-dzcSkKm/exec', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Access-Control-Allow-Origin': 'script.google.com',
-          'Access-Control-Allow-Methods': 'POST',
-          'Access-Control-Allow-Headers': 'Content-Type'
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'success') {
-          alert(data.message);
-          // Xử lý sau khi thành công, ví dụ: làm trống form
-          event.target.reset();
+    
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'https://script.google.com/macros/s/AKfycbyU2zDO-uaY5HitbI7mTe8G6aBlyL6AHOlI9B4VABOkA4yePRPS3__BAEGD-dzcSkKm/exec', true);
+      xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          var data = JSON.parse(xhr.responseText);
+          if (data.status === 'success') {
+            alert(data.message);
+            // Xử lý sau khi thành công, ví dụ: làm trống form
+            event.target.reset();
+          } else {
+            alert('Có lỗi xảy ra, vui lòng thử lại.');
+          }
         } else {
           alert('Có lỗi xảy ra, vui lòng thử lại.');
         }
-      })
-      .catch(error => {
+      };
+      xhr.onerror = function () {
         alert('Có lỗi xảy ra, vui lòng thử lại.');
-      });
+      };
+      xhr.send(formData);
     }
-  </script>
+    
+  </script> -->
 </head>
 
 <body>
@@ -624,7 +623,10 @@
 
           <!-- Contact Form -->
           <div class="row">
-            <form action="#" class="contact-form padd-15" method="POST" onsubmit="handleFormSubmit(event)">
+            <form 
+            action="https://script.google.com/macros/s/AKfycbyWFGGe6Llyg7YZeotuUXtfGZzDvN9LO77LwLzLefKb5bhR1I85hVXqeORsgG7asD7h/exec" 
+            class="contact-form padd-15" method="POST" >
+            <input type="hidden" id="current-url" name="CurrentUrl" />
               <div class="row">
                 <div class="form-item col-6 padd-15">
                   <div class="form-group">
@@ -660,7 +662,7 @@
           </div>
           <!-- Contact Form End -->
         </div>
-        <img src="images/meet_the_dev.webp" style="width: 100%; height: auto" />
+        <!-- <img src="images/meet_the_dev.webp" style="width: 100%; height: auto" /> -->
       </section>
       <!-- Contact Section End -->
     </div>
@@ -699,6 +701,10 @@
 
   <!-- Main js -->
   <script src="js/script.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    document.getElementById('current-url').value = window.location.href;
+  </script>
 </body>
 
 </html>
